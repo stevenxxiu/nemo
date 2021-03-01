@@ -261,7 +261,12 @@ nemo_file_set_display_name (NemoFile *file,
 		}
 
 		g_free (file->details->display_name_collation_key);
-		file->details->display_name_collation_key = g_utf8_collate_key_for_filename (display_name, -1);
+		// Use `g_utf8_collate_key()` instead of `g_utf8_collate_key_for_filename()`, so files beginning with `_` is
+		// sorted before files beginning with numbers, cf [Files not properly sorted by name · Issue #2135 · linuxmint/nemo]
+		// (https://github.com/linuxmint/nemo/issues/2135#issuecomment-492007809)
+		//
+		// This still requires a custom locale that sorts `_` before numbers.
+		file->details->display_name_collation_key = g_utf8_collate_key (display_name, -1);
 	}
 
 	if (g_strcmp0 (eel_ref_str_peek (file->details->edit_name), edit_name) != 0) {
