@@ -514,7 +514,7 @@ nemo_main_application_open (GApplication *app,
 
 	gboolean open_in_tabs = FALSE;
 	gchar *geometry = NULL;
-	gboolean open_in_existing_window = strcmp (options, "EXISTING_WINDOW") == 0;
+	gboolean open_in_existing_window = TRUE;
 	const char splitter = '=';
 
 	g_debug ("Open called on the GApplication instance; %d files", n_files);
